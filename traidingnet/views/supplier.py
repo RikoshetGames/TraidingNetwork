@@ -1,4 +1,7 @@
+from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -14,7 +17,6 @@ class SupplierViewSet(ModelViewSet):
     default_serializer = SupplierSerializers
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['contact__state']
-    permission_classes = [IsAuthenticated]
     pagination_class = TraidingNetworkPagination
 
     serializers = {
@@ -30,6 +32,8 @@ class SupplierViewSet(ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         obj = super().get_queryset()
+        if user.groups.filter(name='moderator').exists() or user.is_superuser:
+            return obj
         return obj.filter(create_user=user)
 
     def get_serializer_class(self):
@@ -38,7 +42,7 @@ class SupplierViewSet(ModelViewSet):
     def get_permissions(self):
         if self.action == ['create', 'list']:
             self.permission_classes = [IsAuthenticated]
-        elif self.action in ['update', 'partial_update', 'retrieve']:
+        elif self.action in ['update', 'retrieve', 'partial_update']:
             self.permission_classes = [IsAuthenticated, IsCreator | IsModerator]
         elif self.action == 'destroy':
             self.permission_classes = [IsAuthenticated, IsCreator]
