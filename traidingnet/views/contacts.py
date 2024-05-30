@@ -3,13 +3,12 @@ from rest_framework.viewsets import ModelViewSet
 
 from traidingnet.models import Contacts
 from traidingnet.serializers.contacts import ContactsSerializer
-from users.permissions import IsModerator, IsCreator
+from users.permissions import IsModerator, IsCreator, IsSuperUser
 
 
 class ContactsViewSet(ModelViewSet):
     serializer_class = ContactsSerializer
     queryset = Contacts.objects.all()
-    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         new_obj = serializer.save()
@@ -17,10 +16,10 @@ class ContactsViewSet(ModelViewSet):
         new_obj.save()
 
     def get_permissions(self):
-        if self.action == ['create', 'list']:
+        if self.action == ['create', 'list', 'retrieve']:
             self.permission_classes = [IsAuthenticated]
-        elif self.action in ['update', 'partial_update', 'retrieve']:
+        elif self.action in ['update', 'partial_update']:
             self.permission_classes = [IsAuthenticated, IsCreator | IsModerator]
         elif self.action == 'destroy':
-            self.permission_classes = [IsAuthenticated, IsCreator]
+            self.permission_classes = [IsAuthenticated, IsCreator | IsSuperUser]
         return [permission() for permission in self.permission_classes]
