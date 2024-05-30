@@ -3,7 +3,7 @@ from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView,
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from users.models import User
-from users.permissions import IsModerator, IsCreator
+from users.permissions import IsModerator, IsCreator, IsUser, IsSuperUser
 from users.serializers import UserSerializer, UserCreateSerializer
 
 
@@ -22,10 +22,7 @@ class UserUpdateAPIView(UpdateAPIView):
     """Класс для обновления пользователя"""
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated, IsCreator]
-
-    def get_object(self):
-        return self.request.user
+    permission_classes = [IsAuthenticated, IsUser]
 
 
 class UserListAPIView(ListAPIView):
@@ -42,19 +39,11 @@ class UserRetrieveAPIView(RetrieveAPIView):
     """Класс для получения пользователя"""
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated, IsCreator | IsModerator]
-
-    def get_object(self):
-        return self.request.user
+    permission_classes = [IsAuthenticated, IsUser | IsModerator]
 
 
 class UserDestroyAPIView(DestroyAPIView):
     """Класс для удаления пользователя"""
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated, IsCreator]
-
-    def get_object(self):
-        user_id = self.kwargs['pk']  # Получаем переданный id из URL
-        return get_object_or_404(self.queryset, id=user_id)
-
+    permission_classes = [IsAuthenticated, IsUser | IsSuperUser]
