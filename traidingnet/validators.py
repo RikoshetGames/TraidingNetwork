@@ -11,6 +11,11 @@ class SupplierNetworkValidator:
                                   'Удалите поставщика или укажите тип поставщика - 1 или 2'
                                   )
 
+        if value.get('supplier_type') != 0 and value.get('supply_level') == 0 and value.get('supplier_name') != 0:
+            raise ValidationError('На нулевом уровне поставки может находиться только завод. '
+                                  'Выберете корректный тип сети или удалите поставщика.'
+                                  )
+
         if value.get('supplier_name') and value.get('supply_level') is not None:
             if value.get('supply_level') != value['supplier_name'].supply_level + 1:
                 raise ValidationError(
@@ -43,3 +48,8 @@ class SupplierNetworkValidator:
             raise ValidationError(
                 'Для создания поставщика укажите тип вашей сети.'
             )
+
+        if value.get('level') == 0 and value.get('network_type') != 0:
+            raise ValidationError('На нулевом уровне поставки может быть только завод. '
+                                  'Если вы являетесь заводом, укажите тип сети - 0.'
+                                  )
