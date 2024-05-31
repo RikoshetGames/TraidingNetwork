@@ -1,9 +1,8 @@
-from django.shortcuts import get_object_or_404
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView, DestroyAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from users.models import User
-from users.permissions import IsModerator, IsCreator, IsUser, IsSuperUser
+from users.permissions import IsModerator, IsUser, IsSuperUser
 from users.serializers import UserSerializer, UserCreateSerializer
 
 

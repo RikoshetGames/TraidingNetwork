@@ -6,8 +6,6 @@ from django.db import models
 NULLABLE = {'blank': True, 'null': True}
 
 
-
-
 class Contacts(models.Model):
     contact_email = models.EmailField(verbose_name='Электронная почта')
     state = models.CharField(max_length=100, verbose_name='Страна', **NULLABLE)

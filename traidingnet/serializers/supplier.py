@@ -52,4 +52,3 @@ class SupplierSerializers(serializers.ModelSerializer):
                     "Обратитесь к администратору сайта, если вам необходимо изменить данные.")
 
         return data
-

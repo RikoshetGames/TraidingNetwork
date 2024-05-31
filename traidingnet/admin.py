@@ -16,6 +16,7 @@ class ContactsAdmin(admin.ModelAdmin):
     list_display = ('id', 'contact_email', 'state', 'city', 'street', 'building', 'create_user')
     list_filter = ('city', 'state')
 
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'product_title', 'product_model', 'release_date', 'product_price', 'create_user')
