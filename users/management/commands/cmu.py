@@ -6,13 +6,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         user = User.objects.create(
-            email='ilyalew@mail.com',
-            first_name='Moder',
-            last_name='Moderov',
+            email='почта',
+            first_name='имя',
+            last_name='фамилия',
             is_superuser=False,
             is_staff=True,
             is_active=True
         )
 
-        user.set_password('645595715abcd')
+        user.set_password('password')
         user.save()
