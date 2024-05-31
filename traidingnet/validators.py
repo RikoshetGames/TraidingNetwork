@@ -51,3 +51,13 @@ class SupplierNetworkValidator:
             raise ValidationError('На нулевом уровне поставки может быть только завод. '
                                   'Если вы являетесь заводом, укажите тип компании - 0.'
                                   )
+
+        if value.get('seller_type') != 0 and value.get('supply_level') != 0 and value.get('supplier_name') is None:
+            raise ValidationError('Вы указали тип сети, не являющегося заводом. '
+                                  'Если вы являетесь не заводом, укажите вашего поставщика.'
+                                  )
+
+        if value.get('seller_type') == 0 and value.get('debt') is not None:
+            raise ValidationError('У завода не может быть задолженности. '
+                                  'Если вы являетесь заводом, оставьте поле задолженности пустым.'
+                                  )
