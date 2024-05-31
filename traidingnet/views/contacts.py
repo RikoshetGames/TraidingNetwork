@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
@@ -9,6 +10,8 @@ from users.permissions import IsModerator, IsCreator, IsSuperUser
 class ContactsViewSet(ModelViewSet):
     serializer_class = ContactsSerializer
     queryset = Contacts.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['state', 'city']
 
     def perform_create(self, serializer):
         new_obj = serializer.save()
