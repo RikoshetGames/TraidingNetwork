@@ -49,13 +49,16 @@
  - у завода ('seller_type') не может быть задолженности ('debt')
  - тип сети не может быть пустым ('seller_type')
 
-#### Для проверки фильтрации поставщика по стране: `http://127.0.0.1:8000/supplier/?contact__country=Australia`
-#### Для проверки фильтрации контакта по стране: `http://127.0.0.1:8000/contact/?country=Australia`
+#### Для проверки фильтрации поставщика по стране: `http://127.0.0.1:8000/supplier/?contact__state=Bolivia`
+#### Для проверки фильтрации контакта по стране: `http://127.0.0.1:8000/contact/?state=Bolivia`
 
-### В корневой папке проекта лежат фикстуры контактов, продуктов и поставщиков - traidingnet.json, и пользователей - users.json.
+### В корневой папке проекта лежат фикстуры контактов, продуктов и поставщиков - traidingnet.json. 
+### Фикстуры пользователей - users.json.
+### Фикстуры модераторов - moderator.json.
 ### Для загрузки фикстур нужно выполнить команды:
 - `python -Xutf8 manage.py loaddata traidingnet -o traidingnet.json`
 - `python -Xutf8 manage.py loaddata users -o users.json`
+- `python manage.py loaddata moderator.json`
 
 
 ### В папке management представлены файлы для создания разных видов пользователей: 
