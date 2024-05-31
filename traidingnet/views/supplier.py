@@ -21,7 +21,6 @@ class SupplierViewSet(ModelViewSet):
 
     serializers = {
         'create': SupplierCreateSerializers,
-        'update': SupplierCreateSerializers,
     }
 
     def perform_create(self, serializer):
