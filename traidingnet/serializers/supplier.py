@@ -32,11 +32,24 @@ class SupplierCreateSerializers(serializers.ModelSerializer):
 
 class SupplierSerializers(serializers.ModelSerializer):
     """ Класс сериализатора поставщика """
-    contact = ContactsSerializer()
-    product = ProductSerializers()
 
-    supplier_type = serializers.CharField(source='get_supplier_type_display')
+    contact = ContactsSerializer(read_only=True)
+    product = ProductSerializers(read_only=True)
+    network_type = serializers.CharField(source='get_network_type_display')
 
     class Meta:
         model = Supplier
         fields = '__all__'
+        read_only_fields = ('debt', 'creation_time', 'creation_user', )
+
+    def validate(self, data):
+        print(data)
+        request = self.context.get('request')
+        if not request.user.is_superuser:
+            if self.instance and any(field in data for field in ["level", "get_network_type_display", "supplier_name"]):
+                raise serializers.ValidationError(
+                    "Обновление данных полей запрещено. "
+                    "Обратитесь к администратору сайта, если вам необходимо изменить данные.")
+
+        return data
+
