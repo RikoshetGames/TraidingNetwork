@@ -13,7 +13,7 @@ def set_null_debt(ModelAdmin, request, queryset):
 
 @admin.register(Contacts)
 class ContactsAdmin(admin.ModelAdmin):
-    list_display = ('id','contact_email', 'state', 'city', 'street', 'building', 'create_user')
+    list_display = ('id', 'contact_email', 'state', 'city', 'street', 'building', 'create_user')
 
 
 @admin.register(Product)
@@ -23,7 +23,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Supplier)
 class SupplierAdmin(admin.ModelAdmin):
-    list_display = ('id', 'sup_name', 'supplier_type', 'contact', 'product', 'supplier_name', 'debt',
+    list_display = ('id', 'seller_name', 'seller_type', 'contact', 'product', 'supplier_name', 'debt',
                     'create_time', 'create_user')
     list_filter = ('contact__city', 'contact__state')
     actions = [set_null_debt]
